@@ -1,70 +1,74 @@
 #include <iostream>
+#include <list>
 #include <string>
-#include <vector>
+#include <fstream>
 
-class Animal {
-public:
-    Animal(const std::string& name, const std::string& species)
-        : name_(name), species_(species) {
-        numOfAnimals++;
-    }
+using namespace std;
 
-    static int numOfAnimals;
-
-    std::string getName() const {
-        return name_;
-    }
-
-    std::string getSpecies() const {
-        return species_;
-    }
-
+class Animal
+{
 private:
-    std::string name_;
-    std::string species_;
-};
+    string name = "";
+    string species = "";
 
-int Animal::numOfAnimals = 0;
+    //int numOfAnimals = 0; //every variable gets its own number which is bad
 
-class Hyena : public Animal {
 public:
-    Hyena(const std::string& name)
-        : Animal(name, "Hyena") {}
+    static inline int numOfAnimals = 0; // variable or data members or functions can not be modified again, STATIC CAN BE MODIFIED IN THIS CODE MEANING THIS IS BAD WE DONT WANT TO BE ABLE TO MODIFY THIS
+    Animal(string theName, string theSpecies) //(child, parent) parameter
+    {
+        name = theName;
+        species = theSpecies;
+        //increment numOfAnimals
+        numOfAnimals++; //every time an animal is created, it adds one. REMEMBER THIS IS A FUNCTION, IT IS EXECUTING EVERYTHING
 
-    static std::vector<std::string> hyenaNames;
-
-    static std::string assignName() {
-        if (hyenaNames.empty()) {
-            return "No more hyena names available";
-        }
-
-        std::string name = hyenaNames.back();
-        hyenaNames.pop_back();
+    }
+    string getAnimalName()
+    {
         return name;
     }
-};
-
-std::vector<std::string> Hyena::hyenaNames = {
-    "Shenzi", "Banzai", "Ed", "Zig", "Bud",
-    "Lou", "Kamari", "Wema", "Nne", "Madoa",
-    "Prince Nevarah"
-};
-
-int main() {
-    // Creating Animal objects
-    Animal lion("Simba", "Lion");
-    Animal elephant("Dumbo", "Elephant");
-
-    // Accessing and displaying the number of animals
-    std::cout << "Number of animals created: " << Animal::numOfAnimals << std::endl;
-
-    // Creating Hyena objects and assigning names
-    for (int i = 0; i < 5; i++) {
-        std::cout << "Hyena assigned name: " << Hyena::assignName() << std::endl;
+    string getAnimalSpecies()
+    {
+        return species;
     }
 
-    // Accessing and displaying the remaining number of hyena names
-    std::cout << "Remaining hyena names: " << Hyena::hyenaNames.size() << std::endl;
+    int getNumOfAnimals()
+    {
+        return numOfAnimals;
+    }
+//I need a static variable named: numOfAnimals
+
+
+};
+
+int main()
+{
+    cout << "\n Welcome to my Midterm Check In!! \n" << endl;
+
+    cout << " Num of animals is: " << Animal::numOfAnimals << "\n\n";
+
+    // Create an animal object
+    Animal myNewAnimal01("I expect a NAME", "and SPECIES"); //argument for parameter in line 17
+    // Create another animal object
+    Animal animaltwo("This is my Second ANIMAL NAME", "Hyena");
+
+    cout << " \n\nAfter creating a couple animals, numOfAnimals is " << Animal::numOfAnimals << "\n\n";
+
+    //Evaluate the public members
+    // Cannot do this, these are private members, use construct (line 17) to access public domain at line 16.
+    //myNewAnimal01.name = "Name One";
+    // myNewAnimal01.species = "Hyena";
+
+    cout << " The name of this animal is: " << myNewAnimal01.getAnimalName() << endl;
+    cout << " The species name of this animal is: " << myNewAnimal01.getAnimalSpecies() << endl;
+
+    cout << " The name of this animal is: " << animaltwo.getAnimalName() << endl;
+    cout << " The species name of this animal is: " << animaltwo.getAnimalSpecies() << endl;
+
+    Animal::numOfAnimals+=5;
+
+    cout << " Num of animals is: " << Animal::numOfAnimals << "\n\n"; // just added five //GetNumOfAnimals
+
 
     return 0;
 }
